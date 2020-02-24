@@ -40,7 +40,7 @@ class Translate extends Kit implements Task
     private const FORMAT = 'format';
 
     /**
-     * Наименования параметра "Конфигуация глоссария"
+     * Наименования параметра "Конфигурация глоссария"
      */
     private const GLOSS_CONFIG = 'glossaryConfig';
 
@@ -60,7 +60,7 @@ class Translate extends Kit implements Task
     private const GLOSS_PAIRS_SOURCE_TEXT = 'sourceText';
 
     /**
-     * Наименования параметра "Текст, на языке, на который переводится текст (глоссария)"
+     * Наименования параметра "Текст, на языке, на который переводится текст (глоссарий)"
      */
     private const GLOSS_PAIRS_TARGET_TEXT = 'translatedText';
 
@@ -161,16 +161,16 @@ class Translate extends Kit implements Task
             }
 
             foreach ($pairs as $v) {
-                $sourceTextLength += strlen($v[self::GLOSS_PAIRS_SOURCE_TEXT]);
-                $targetTextLength += strlen($v[self::GLOSS_PAIRS_TARGET_TEXT]);
+                $sourceTextLength +=
+                    strlen($v[self::GLOSS_PAIRS_SOURCE_TEXT]);
+                $targetTextLength +=
+                    strlen($v[self::GLOSS_PAIRS_TARGET_TEXT]);
             }
         }
 
-        if ($sourceTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
-
-        if ($targetTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH) {
+        if (($sourceTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH)
+            || ($targetTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH))
+        {
             throw new ClientException(Message::LENGTH_ERROR);
         }
 

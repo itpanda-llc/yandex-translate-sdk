@@ -20,8 +20,8 @@
             "Panda\\Yandex\\TranslateSDK\\": "src"
         }
     },
-  "require": {
-      "ext-json": "*",
-      "ext-curl": "*"
-  }
+    "require": {
+        "ext-json": "*",
+        "ext-curl": "*"
+    }
 }
