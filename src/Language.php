@@ -1,24 +1,21 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/TranslateSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-Translate-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\TranslateSDK;
 
 /**
- * Class Language Поддерживаемые языки
+ * Class Language
  * @package Panda\Yandex\TranslateSDK
+ * Поддерживаемые языки
  */
 class Language extends Kit implements Task
 {
     /**
-     * @return string URL web-запроса
+     * @return string URL-адрес web-запроса
      */
     public function getURL(): string
     {

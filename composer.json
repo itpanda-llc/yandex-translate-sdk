@@ -3,8 +3,7 @@
     "description": "Library for integration with machine translation service Yandex Translate",
     "type": "library",
     "keywords": [
-        "panda", "language", "yandex", "translate", "cloud", "php",
-        "sdk", "api", "rest-api", "http-client", "integration", "backend"
+        "panda", "translate", "yandex"
     ],
     "homepage": "https://github.com/itpanda-llc/yandex-translate-php-sdk",
     "license": "MIT",

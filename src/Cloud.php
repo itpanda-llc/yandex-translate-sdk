@@ -1,12 +1,8 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/TranslateSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-Translate-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\TranslateSDK;
@@ -14,8 +10,9 @@ namespace Panda\Yandex\TranslateSDK;
 use Panda\Yandex\TranslateSDK\Exception\ClientException;
 
 /**
- * Class Cloud Аутентификация в облаке и выполнение задачи
+ * Class Cloud
  * @package Panda\Yandex\TranslateSDK
+ * Аутентификация в облаке и выполнение задачи
  */
 class Cloud extends Request
 {
@@ -73,7 +70,7 @@ class Cloud extends Request
      */
     private function setAuthHeaders(string $iamToken): void
     {
-        $this->headers[] = sprintf('Authorization: Bearer %s',
+        $this->headers[] = sprintf("Authorization: Bearer %s",
             $iamToken);
     }
 
@@ -106,7 +103,7 @@ class Cloud extends Request
     {
         $task->addParam($this->task);
 
-        return parent::send($task->getURL(),
+        return $this->send($task->getURL(),
             $task->getParam(),
             $this->headers);
     }

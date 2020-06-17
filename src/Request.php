@@ -1,12 +1,8 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/TranslateSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-Translate-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\TranslateSDK;
@@ -14,16 +10,17 @@ namespace Panda\Yandex\TranslateSDK;
 use Panda\Yandex\TranslateSDK\Exception\ClientException;
 
 /**
- * Class Request Web-запрос
+ * Class Request
  * @package Panda\Yandex\TranslateSDK
+ * Web-запрос
  */
 class Request
 {
     /**
-     * @param string $url URL web-запроса
-     * @param string $data Параметры web-запроса
-     * @param array|null $headers Заголовки web-запроса
-     * @return string Результат web-запроса
+     * @param string $url URL-адрес
+     * @param string $data Параметры
+     * @param array|null $headers Заголовки
+     * @return string Результат
      */
     protected function send(string $url,
                             string $data,
@@ -47,9 +44,7 @@ class Request
         $response = curl_exec($ch);
 
         if ($response === false) {
-            throw new ClientException(sprintf('%s. Ошибка: %s',
-                Message::REQUEST_ERROR,
-                curl_error($ch)));
+            throw new ClientException(curl_error($ch));
         }
 
         curl_close($ch);

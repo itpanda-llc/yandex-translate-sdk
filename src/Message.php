@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/TranslateSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-Translate-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\TranslateSDK;
 
 /**
- * Class Message Сообщения исключений
+ * Class Message
  * @package Panda\Yandex\TranslateSDK
+ * Сообщения исключений
  */
 class Message
 {
@@ -26,9 +23,4 @@ class Message
      * Ошибка количества значений параметра(ов)
      */
     public const COUNT_ERROR = 'Превышено количество значений параметра(ов)';
-
-    /**
-     * Ошибка выполнения web-запроса
-     */
-    public const REQUEST_ERROR = 'Web-запрос не выполнен';
 }

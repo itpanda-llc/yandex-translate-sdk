@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/TranslateSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-Translate-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\TranslateSDK;
 
 /**
- * Class Format Форматы текста для перевода
+ * Class Format
  * @package Panda\Yandex\TranslateSDK
+ * Формат текста для перевода
  */
 class Format
 {

@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/TranslateSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-Translate-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\TranslateSDK;
 
 /**
- * Class Limit Ограничения длины и(или) количества значений параметров
+ * Class Limit
  * @package Panda\Yandex\TranslateSDK
+ * Ограничения длины и(или) количества значений параметров
  */
 class Limit
 {

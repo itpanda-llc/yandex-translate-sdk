@@ -1,20 +1,13 @@
-# Panda Yandex-Translate-PHP-SDK
+# Yandex-Translate-PHP-SDK
 
 Библиотека для интеграции с сервисом машинного перевода ["Yandex Translate"](https://cloud.yandex.ru/services/translate)
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-## Разработка
+## Ссылки
 
-[![](___logo100x120.png)](https://github.com/itpanda-llc)
-
-* [Страница](https://github.com/itpanda-llc)
-
-## О проекте
-
-[![](translate.dcdb9b24.png)](https://cloud.yandex.ru/services/translate)
-
-* [Страница](https://cloud.yandex.ru/services/translate)
+* [Разработка](https://github.com/itpanda-llc)
+* [О проекте](https://cloud.yandex.ru/services/translate)
 * [Документация](https://cloud.yandex.ru/docs/translate)
 
 ## Возможности
@@ -32,16 +25,14 @@
 
 ## Установка
 
-С использованием Composer
-
-```
-require itpanda-llc/yandex-translate-php-sdk
+```shell script
+php composer.phar "require itpanda-llc/yandex-translate-php-sdk"
 ```
 
-С использованием Git
+или
 
-```
-clone https://github.com/itpanda-llc/yandex-translate-php-sdk
+```shell script
+git clone https://github.com/itpanda-llc/yandex-translate-php-sdk
 ```
 
 ## Примеры использования
@@ -49,14 +40,16 @@ clone https://github.com/itpanda-llc/yandex-translate-php-sdk
 Подключение
 
 ```php
-// После Composer-установки
 require_once 'vendor/autoload.php';
+```
 
-// После Git-установки
+или
+
+```php
 require_once 'yandex-translate-php-sdk/autoload.php';
 ```
 
-Импортирование
+Импорт
 
 ```php
 use Panda\Yandex\TranslateSDK\Cloud;
@@ -99,22 +92,31 @@ try {
     $translate->addText('Сейчас ты увидишь, как работает перевод текста!')
         ->addText('Это удивительно!')
         ->addText('Технологии не стоят на месте..')
-    
-        // Добавление обязательного параметра: "Язык исходного текста" (обязательно, при использовании глоссариев)
-        // Воспользуйтесь приемом "print_r($lang = json_decode($cloud->getLanguageList(), true));",
-        // для получения списка кодов, поддерживаемых языков сервисом, в качестве параметра.
+
+        /*
+         * Добавление обязательного параметра: "Язык исходного текста" (обязательно, при использовании глоссариев)
+         * Воспользуйтесь приемом "print_r($lang = json_decode($cloud->getLanguageList(), true));",
+         * для получения списка кодов, поддерживаемых языков сервисом, в качестве параметра.
+         */
         ->setSourceLang('ru')
-    
-        // Добавление обязательного параметра: "Язык на который переводить"
-        // Воспользуйтесь приемом "print_r($lang = json_decode($cloud->getLanguageList(), true));",
-        // для получения списка кодов, поддерживаемых языков сервисом, в качестве параметра.
+
+        /*
+         * Добавление обязательного параметра: "Язык на который переводить"
+         * Воспользуйтесь приемом "print_r($lang = json_decode($cloud->getLanguageList(), true));",
+         * для получения списка кодов, поддерживаемых языков сервисом, в качестве параметра.
+         */
         ->setTargetLang('en')
     
-        // Добавление обязательного параметра: "Формат" (необязательно)
-        // Возможно использование других констант класса "Format", в качестве параметра
+        /*
+         * Добавление обязательного параметра: "Формат" (необязательно)
+         * Возможно использование других констант класса "Format", в качестве параметра
+         */
         ->setFormat(Format::PLAIN_TEXT)
-    
-        // Добавление обязательных параметров: "Текст в оригинале для глоссария", "Текст на языке перевода для глоссария" (необязательно)
+
+        /*
+         * Добавление обязательных параметров: "Текст в оригинале для глоссария",
+         * "Текст на языке перевода для глоссария" (необязательно)
+         */
         ->addGlossary('текста', 'greeting text')
         ->addGlossary('удивительно', 'super')
         ->addGlossary('технологии', 'services');
@@ -162,9 +164,11 @@ try {
 
 ```php
 try {
-    // Добавление обязательного параметра: "Предполагаемый язык" (необязательно)
-    // Воспользуйтесь приемом "print_r($lang = json_decode($cloud->getLanguageList(), true));",
-    // для получения списка кодов, поддерживаемых языков сервисом, в качестве параметра.
+    /*
+     * Добавление обязательного параметра: "Предполагаемый язык" (необязательно)
+     * Воспользуйтесь приемом "print_r($lang = json_decode($cloud->getLanguageList(), true));",
+     * для получения списка кодов, поддерживаемых языков сервисом, в качестве параметра.
+     */
     $detect->addHint('ru')
         ->addHint('uk')
         ->addHint('be');
@@ -200,8 +204,10 @@ try {
 $language = new Language;
 
 try {
-    // Способ №2 Выполнение задачи
-    // Обязательный параметр: "Задача"
+    /*
+     * Выполнение задачи
+     * Обязательный параметр: "Задача"
+     */
     print_r($cloud->request($language));
 } catch (ClientException $e) {
     echo $e->getMessage();
