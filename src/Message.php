@@ -2,25 +2,25 @@
 
 /**
  * Файл из репозитория Yandex-Translate-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-translate-php-sdk
  */
 
-namespace Panda\Yandex\TranslateSDK;
+namespace Panda\Yandex\TranslateSdk;
 
 /**
- * Class Message
- * @package Panda\Yandex\TranslateSDK
+ * Class Text
+ * @package Panda\Yandex\TranslateSdk
  * Сообщения исключений
  */
 class Message
 {
     /**
-     * Ошибка длины значения параметра(ов)
+     * Ошибка длины параметра(ов)
      */
-    public const LENGTH_ERROR = 'Превышена длина значения параметра(ов)';
+    public const LENGTH_ERROR = 'Превышена длина параметра(ов)';
 
     /**
-     * Ошибка количества значений параметра(ов)
+     * Ошибка количества параметра(ов)
      */
-    public const COUNT_ERROR = 'Превышено количество значений параметра(ов)';
+    public const COUNT_ERROR = 'Превышено количество параметра(ов)';
 }

@@ -2,133 +2,127 @@
 
 /**
  * Файл из репозитория Yandex-Translate-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-translate-php-sdk
  */
 
-namespace Panda\Yandex\TranslateSDK;
+declare(strict_types=1);
 
-use Panda\Yandex\TranslateSDK\Exception\ClientException;
+namespace Panda\Yandex\TranslateSdk;
 
 /**
  * Class Translate
- * @package Panda\Yandex\TranslateSDK
+ * @package Panda\Yandex\TranslateSdk
  * Перевод текста
  */
-class Translate extends Kit implements Task
+class Translate extends Task
 {
     /**
-     * Наименования параметра "Тексты"
+     * Наименования параметра "Язык, на котором написан исходный текст"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const TEXTS = 'texts';
+    private const SOURCE_LANGUAGE_CODE = 'sourceLanguageCode';
 
     /**
-     * Наименования параметра "Код языа исходного текста"
+     * Наименования параметра "Язык, на который переводится текст"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const SOURCE_LANG_CODE = 'sourceLanguageCode';
+    private const TARGET_LANGUAGE_CODE = 'targetLanguageCode';
 
     /**
-     * Наименования параметра "Код языка, на который переводится текст"
-     */
-    private const TARGET_LANG_CODE = 'targetLanguageCode';
-
-    /**
-     * Наименования параметра "Формат"
+     * Наименования параметра "Формат текста"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
     private const FORMAT = 'format';
 
     /**
-     * Наименования параметра "Конфигурация глоссария"
+     * Наименования параметра "Массив строк для перевода"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const GLOSS_CONFIG = 'glossaryConfig';
+    private const TEXTS = 'texts';
 
     /**
-     * Наименования параметра "Содержание глоссария"
+     * Наименования параметра "Глоссарий"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const GLOSS_DATA = 'glossaryData';
+    private const GLOSSARY_CONFIG = 'glossaryConfig';
 
     /**
-     * Наименования параметра "Пары глоссария"
+     * Наименования параметра "Содержимое глоссария"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const GLOSS_PAIRS = 'glossaryPairs';
+    private const GLOSSARY_DATA = 'glossaryData';
 
     /**
-     * Наименования параметра "Текст на языке оригинала (глоссарий)"
+     * Наименования параметра "Массив текстовых пар"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const GLOSS_PAIRS_SOURCE_TEXT = 'sourceText';
+    private const GLOSSARY_PAIRS = 'glossaryPairs';
 
     /**
-     * Наименования параметра "Текст на языке,
-     * на который переводится текст (глоссарий)"
+     * Наименования параметра "Текст на языке оригинала"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
-    private const GLOSS_PAIRS_TARGET_TEXT = 'translatedText';
+    private const SOURCE_TEXT = 'sourceText';
+
+    /**
+     * Наименования параметра "Текст на языке перевода"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
+     */
+    private const TRANSLATED_TEXT = 'translatedText';
 
     /**
      * Translate constructor.
-     * @param string $text Текст
+     * @param string|null $text Строка для перевода
+     * @param string|null $targetLang Язык, на который переводится текст
      */
-    public function __construct(string $text)
+    public function __construct(string $text = null,
+                                string $targetLang = null)
     {
-        $this->addText($text);
+        if (!is_null($text)) $this->addText($text);
+        if (!is_null($targetLang)) $this->setTargetLang($targetLang);
     }
 
     /**
-     * @param string $text Текст для перевода
-     * @return Translate
+     * @return string URL-адрес
      */
-    public function addText(string $text): Translate
+    public function getUrl(): string
     {
-        $textLength = strlen($text);
+        return Url::TRANSLATE;
+    }
 
-        if (isset($this->task[self::TEXTS])) {
-            foreach ($this->task[self::TEXTS] as $v) {
-                $textLength += strlen($v);
-            }
-        }
+    /**
+     * @param string $langCode Язык, на котором написан исходный текст
+     * @return $this
+     */
+    public function setSourceLang(string $langCode): self
+    {
+        if (mb_strlen($langCode) > Limit::LANGUAGE_CODE_LENGTH)
+            throw new Exception\ClientException(Message::LENGTH_ERROR);
 
-        if ($textLength > Limit::TRANSLATE_TEXTS_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
-
-        $this->task[self::TEXTS][] = $text;
+        $this->task[self::SOURCE_LANGUAGE_CODE] = $langCode;
 
         return $this;
     }
 
     /**
-     * @param string $langCode Код языка исходного текста
-     * @return Translate
+     * @param string $langCode Язык, на который переводится текст
+     * @return $this
      */
-    public function setSourceLang(string $langCode): Translate
+    public function setTargetLang(string $langCode): self
     {
-        if (strlen($langCode) > Limit::LANGUAGE_CODE_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
+        if (mb_strlen($langCode) > Limit::LANGUAGE_CODE_LENGTH)
+            throw new Exception\ClientException(Message::LENGTH_ERROR);
 
-        $this->task[self::SOURCE_LANG_CODE] = $langCode;
-
-        return $this;
-    }
-
-    /**
-     * @param string $langCode Код языка, на который переводится текст
-     * @return Translate
-     */
-    public function setTargetLang(string $langCode): Translate
-    {
-        if (strlen($langCode) > Limit::LANGUAGE_CODE_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
-
-        $this->task[self::TARGET_LANG_CODE] = $langCode;
+        $this->task[self::TARGET_LANGUAGE_CODE] = $langCode;
 
         return $this;
     }
 
     /**
      * @param string $format Формат текста
-     * @return Translate
+     * @return $this
      */
-    public function setFormat(string $format): Translate
+    public function setFormat(string $format): self
     {
         $this->task[self::FORMAT] = $format;
 
@@ -136,56 +130,63 @@ class Translate extends Kit implements Task
     }
 
     /**
-     * @param string $sourceText Текст на языке оригинала (Глоссарий)
-     * @param string $targetText Текст на языке перевода (Глоссарий)
-     * @return Translate
+     * @param string $text Строка для перевода
+     * @return $this
      */
-    public function addGlossary(string $sourceText,
-                                string $targetText): Translate
+    public function addText(string $text): self
     {
-        $pairsCount = 0;
+        $textLength = mb_strlen($text);
 
-        $sourceTextLength = strlen($sourceText);
-        $targetTextLength = strlen($targetText);
+        if (isset($this->task[self::TEXTS]))
+            foreach ($this->task[self::TEXTS] as $v)
+                $textLength += mb_strlen($v);
 
-        $pairs = $this->task[self::GLOSS_CONFIG]
-            [self::GLOSS_DATA][self::GLOSS_PAIRS] ?? [];
+        if ($textLength > Limit::TRANSLATE_TEXTS_LENGTH)
+            throw new Exception\ClientException(Message::LENGTH_ERROR);
 
-        if (!empty($pairs)) {
-            $pairsCount = count($pairs);
-
-            if (++$pairsCount > Limit::GLOSSARY_PAIRS_COUNT) {
-                throw new ClientException(Message::COUNT_ERROR);
-            }
-
-            foreach ($pairs as $v) {
-                $sourceTextLength +=
-                    strlen($v[self::GLOSS_PAIRS_SOURCE_TEXT]);
-                $targetTextLength +=
-                    strlen($v[self::GLOSS_PAIRS_TARGET_TEXT]);
-            }
-        }
-
-        if (($sourceTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH)
-            || ($targetTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH))
-        {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
-
-        $pair = [self::GLOSS_PAIRS_SOURCE_TEXT => $sourceText,
-            self::GLOSS_PAIRS_TARGET_TEXT => $targetText];
-
-        $this->task[self::GLOSS_CONFIG]
-            [self::GLOSS_DATA][self::GLOSS_PAIRS][] = $pair;
+        $this->task[self::TEXTS][] = $text;
 
         return $this;
     }
 
     /**
-     * @return string URL-адрес web-запроса
+     * @param string $sourceText Текст на языке оригинала
+     * @param string $translatedText Текст на языке перевода
+     * @return $this
      */
-    public function getURL(): string
+    public function addGlossary(string $sourceText,
+                                string $translatedText): self
     {
-        return URL::TRANSLATE;
+        $sourceTextLength = mb_strlen($sourceText);
+        $translatedTextLength = mb_strlen($translatedText);
+
+        $glossaryPairs = $this->task[self::GLOSSARY_CONFIG]
+            [self::GLOSSARY_DATA][self::GLOSSARY_PAIRS] ?? [];
+
+        if (!empty($glossaryPairs)) {
+            $glossaryPairsCount = count($glossaryPairs);
+
+            if (++$glossaryPairsCount > Limit::GLOSSARY_PAIRS_COUNT)
+                throw new Exception\ClientException(Message::COUNT_ERROR);
+
+            foreach ($glossaryPairs as $v) {
+                $sourceTextLength +=
+                    mb_strlen($v[self::SOURCE_TEXT]);
+                $translatedTextLength +=
+                    mb_strlen($v[self::TRANSLATED_TEXT]);
+            }
+        }
+
+        if (($sourceTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH)
+            || ($translatedTextLength > Limit::GLOSSARY_PAIRS_TEXT_LENGTH))
+            throw new Exception\ClientException(Message::LENGTH_ERROR);
+
+        $this->task[self::GLOSSARY_CONFIG]
+            [self::GLOSSARY_DATA][self::GLOSSARY_PAIRS][] = [
+                self::SOURCE_TEXT => $sourceText,
+                self::TRANSLATED_TEXT => $translatedText
+        ];
+
+        return $this;
     }
 }

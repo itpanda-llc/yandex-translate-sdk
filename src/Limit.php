@@ -2,50 +2,63 @@
 
 /**
  * Файл из репозитория Yandex-Translate-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-translate-php-sdk
  */
 
-namespace Panda\Yandex\TranslateSDK;
+namespace Panda\Yandex\TranslateSdk;
 
 /**
  * Class Limit
- * @package Panda\Yandex\TranslateSDK
- * Ограничения длины и(или) количества значений параметров
+ * @package Panda\Yandex\TranslateSdk
+ * Ограничения длины/размера и/или количества параметров
  */
 class Limit
 {
     /**
-     * Длина параметра "ID каталога"
+     * Длина параметра "Идентификатор каталога"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/detectLanguage
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/listLanguages
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
     public const FOLDER_ID_LENGTH = 50;
 
     /**
-     * Длина параметра "Текст для определения языка"
+     * Длина параметра "Текст, язык которого требуется определить"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/detectLanguage
      */
     public const DETECT_TEXT_LENGTH = 1000;
 
     /**
-     * Количество параметров "Код языка"
+     * Количество параметров "Наиболее вероятный язык"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/detectLanguage
      */
     public const LANGUAGE_CODE_HINTS_COUNT = 10;
 
     /**
-     * Длина параметра "Код языка"
+     * Длина параметра "Наиболее вероятный язык"
+     * Длина параметра "Язык, на котором написан исходный текст"
+     * Длина параметра "Язык, на который переводится текст"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/detectLanguage
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
     public const LANGUAGE_CODE_LENGTH = 3;
 
     /**
-     * Длина параметра "Тексты для перевода"
+     * Длина параметра "Массив строк для перевода"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
     public const TRANSLATE_TEXTS_LENGTH = 10000;
 
     /**
-     * Длина параметров "Тексты глоссария"
+     * Длина параметра "Текст на языке оригинала"
+     * Длина параметра "Текст на языке перевода"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
     public const GLOSSARY_PAIRS_TEXT_LENGTH = 10000;
 
     /**
-     * Количество параметров "Пара глоссария"
+     * Количество параметров "Массив текстовых пар"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/translate
      */
     public const GLOSSARY_PAIRS_COUNT = 50;
 }

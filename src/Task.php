@@ -2,30 +2,50 @@
 
 /**
  * Файл из репозитория Yandex-Translate-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-translate-php-sdk
  */
 
-namespace Panda\Yandex\TranslateSDK;
+declare(strict_types=1);
+
+namespace Panda\Yandex\TranslateSdk;
 
 /**
- * Interface Task
- * @package Panda\Yandex\TranslateSDK
- * Задача
+ * Class Kit
+ * @package Panda\Yandex\TranslateSdk
+ * Задача / Запрос
  */
-interface Task
+abstract class Task
 {
     /**
-     * @param array $param Параметры задачи
+     * @var string[] Заголовки web-запроса
      */
-    public function addParam(array $param): void;
+    public $headers = ['Content-Type: application/json'];
 
     /**
-     * @return string Параметры задачи
+     * @var array Параметры задачи/запроса
      */
-    public function getParam(): string;
+    protected $task = [];
 
     /**
-     * @return string URL-адрес web-запроса
+     * @param array $param Параметры задачи/запроса
      */
-    public function getURL(): string;
+    public function addParam(array $param): void
+    {
+        $this->task += $param;
+    }
+
+    /**
+     * @return string URL-адрес
+     */
+    abstract public function getUrl(): string;
+
+    /**
+     * @return string|null Параметры задачи/запроса
+     */
+    public function getParam(): ?string
+    {
+        return ($this->task !== [])
+            ? json_encode($this->task)
+            : null;
+    }
 }

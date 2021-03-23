@@ -2,76 +2,82 @@
 
 /**
  * Файл из репозитория Yandex-Translate-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-translate-php-sdk
  */
 
-namespace Panda\Yandex\TranslateSDK;
+declare(strict_types=1);
 
-use Panda\Yandex\TranslateSDK\Exception\ClientException;
+namespace Panda\Yandex\TranslateSdk;
 
 /**
  * Class Detect
- * @package Panda\Yandex\TranslateSDK
+ * @package Panda\Yandex\TranslateSdk
  * Определение языка текста
  */
-class Detect extends Kit implements Task
+class Detect extends Task
 {
     /**
-     * Наименования параметра "Текст"
+     * Наименования параметра "Текст, язык которого требуется определить"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/detectLanguage
      */
     private const TEXT = 'text';
 
     /**
-     * Наименование параметра "Коды языка"
+     * Наименование параметра "Список наиболее вероятных языков"
+     * @link https://cloud.yandex.ru/docs/translate/api-ref/Translation/detectLanguage
      */
-    private const HINT_CODE = 'languageCodeHints';
+    private const LANGUAGE_CODE_HINTS = 'languageCodeHints';
 
     /**
      * Detect constructor.
-     * @param string $text Текст для определения языка
+     * @param string|null $text Текст, язык которого требуется определить
      */
-    public function __construct(string $text)
+    public function __construct(string $text = null)
     {
-        if (strlen($text) > Limit::DETECT_TEXT_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
-
-        $this->task[self::TEXT] = $text;
+        if (!is_null($text)) $this->setText($text);
     }
 
     /**
-     * @param string $hintCode Код языка, подсказка для определения языка текста
-     * @return Detect
+     * @return string URL-адрес
      */
-    public function addHint(string $hintCode): Detect
+    public function getUrl(): string
     {
-        if (strlen($hintCode) > Limit::LANGUAGE_CODE_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
+        return Url::DETECT;
+    }
 
-        $hintCodeCount = 0;
+    /**
+     * @param string $text Текст, язык которого требуется определить
+     * @return $this
+     */
+    public function setText(string $text): self
+    {
+        if (mb_strlen($text) > Limit::DETECT_TEXT_LENGTH)
+            throw new Exception\ClientException(Message::LENGTH_ERROR);
 
-        if (isset($this->task[self::HINT_CODE])) {
-            $hintCodeCount = count($this->task[self::HINT_CODE]);
-        }
-
-        if (++$hintCodeCount > Limit::LANGUAGE_CODE_HINTS_COUNT) {
-            throw new ClientException(Message::COUNT_ERROR);
-        }
-
-        $this->task[self::HINT_CODE][] = $hintCode;
-
-        $this->task[self::HINT_CODE] =
-            array_unique($this->task[self::HINT_CODE]);
+        $this->task[self::TEXT] = $text;
 
         return $this;
     }
 
     /**
-     * @return string URL-адрес web-запроса
+     * @param string $codeHint Наиболее вероятный язык
+     * @return $this
      */
-    public function getURL(): string
+    public function addHint(string $codeHint): self
     {
-        return URL::DETECT;
+        if (mb_strlen($codeHint) > Limit::LANGUAGE_CODE_LENGTH)
+            throw new Exception\ClientException(Message::LENGTH_ERROR);
+
+        $codeHintCount = count($this->task[self::LANGUAGE_CODE_HINTS] ?? []);
+
+        if (++$codeHintCount > Limit::LANGUAGE_CODE_HINTS_COUNT)
+            throw new Exception\ClientException(Message::COUNT_ERROR);
+
+        $this->task[self::LANGUAGE_CODE_HINTS][] = $codeHint;
+
+        $this->task[self::LANGUAGE_CODE_HINTS] =
+            array_unique($this->task[self::LANGUAGE_CODE_HINTS]);
+
+        return $this;
     }
 }
