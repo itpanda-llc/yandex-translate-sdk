@@ -1,4 +1,4 @@
-# Yandex-Translate-PHP-SDK
+# Yandex-Translate-SDK
 
 Библиотека для интеграции с сервисом машинного перевода ["Yandex Translate"](https://cloud.yandex.ru/services/translate)
 

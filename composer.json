@@ -1,7 +1,7 @@
 {
     "name": "itpanda-llc/yandex-translate-sdk",
     "description": "Library for integration with the Yandex Translate machine translation service",
-    "homepage": "https://github.com/itpanda-llc/yandex-translate-php-sdk",
+    "homepage": "https://github.com/itpanda-llc/yandex-translate-sdk",
     "license": "MIT",
     "authors": [
         {
